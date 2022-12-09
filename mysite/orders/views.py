@@ -45,4 +45,17 @@ class OrderLineCreateView(generic.CreateView):
         form.save()
         return super().form_valid(form)
 
+class OrderUpdateView(generic.UpdateView):
+    model = Order
+    fields = ['status', 'user']
+    template_name = 'order_form.html'
+
+    def get_success_url(self):
+        return reverse('user_order', kwargs={'pk': self.kwargs['pk']})
+
+
+class OrderDeleteView(generic.DeleteView):
+    model = Order
+    success_url = "/orders"
+    template_name = 'order_delete.html'
 

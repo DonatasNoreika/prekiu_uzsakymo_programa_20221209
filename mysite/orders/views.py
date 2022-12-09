@@ -21,4 +21,14 @@ class UserOrderDetailView(generic.DetailView):
     template_name = 'user_order.html'
     context_object_name = 'order'
 
+class OrderCreateView(generic.CreateView):
+    model = Order
+    fields = ['status']
+    success_url = "/orders"
+    template_name = 'order_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 

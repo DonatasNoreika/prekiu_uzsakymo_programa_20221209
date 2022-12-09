@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Užsakymai{% endblock %}
+
+{% block content %}
+<h4>Jūsų užsakymas Nr. {{ order.id }}:</h4>
+<p><b>Vartotojas: </b>{{ order.user }}</p>
+<p><b>Data: </b>{{ order.date }}</p>
+<p><b>Statusas: </b>{{ order.status }}</p>
+{% endblock %}

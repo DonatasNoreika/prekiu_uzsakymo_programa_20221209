@@ -16,4 +16,9 @@ class UserOrderListView(generic.ListView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
+class UserOrderDetailView(generic.DetailView):
+    model = Order
+    template_name = 'user_order.html'
+    context_object_name = 'order'
+
 

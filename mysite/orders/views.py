@@ -32,19 +32,6 @@ class OrderCreateView(generic.CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class OrderLineCreateView(generic.CreateView):
-    model = OrderLine
-    fields = ['product', 'qty']
-    template_name = 'orderline_form.html'
-
-    def get_success_url(self):
-        return reverse('user_order', kwargs={'pk': self.kwargs['pk']})
-
-    def form_valid(self, form):
-        form.instance.order = Order.objects.get(pk=self.kwargs['pk'])
-        form.save()
-        return super().form_valid(form)
-
 class OrderUpdateView(generic.UpdateView):
     model = Order
     fields = ['status', 'user']
@@ -58,4 +45,34 @@ class OrderDeleteView(generic.DeleteView):
     model = Order
     success_url = "/orders"
     template_name = 'order_delete.html'
+
+class OrderLineCreateView(generic.CreateView):
+    model = OrderLine
+    fields = ['product', 'qty']
+    template_name = 'orderline_form.html'
+
+    def get_success_url(self):
+        return reverse('user_order', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        form.instance.order = Order.objects.get(pk=self.kwargs['pk'])
+        form.save()
+        return super().form_valid(form)
+
+class OrderLineUpdateView(generic.UpdateView):
+    model = OrderLine
+    fields = ['product', 'qty']
+    template_name = 'orderline_form.html'
+
+    def get_success_url(self):
+        return reverse('user_order', kwargs={'pk': self.kwargs['pk2']})
+
+
+class OrderLineDeleteView(generic.DeleteView):
+    model = OrderLine
+    template_name = 'orderline_delete.html'
+    context_object_name = 'line'
+
+    def get_success_url(self):
+        return reverse('user_order', kwargs={'pk': self.kwargs['pk2']})
 

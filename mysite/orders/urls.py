@@ -3,11 +3,13 @@ from django.urls import path, include
 from .views import (OrderListView,
                     UserOrderListView,
                     UserOrderDetailView,
-                    OrderCreateView)
+                    OrderCreateView,
+                    OrderLineCreateView)
 
 urlpatterns = [
     path("", OrderListView.as_view(), name="orders"),
     path("orders/", UserOrderListView.as_view(), name="user_orders"),
     path("orders/<int:pk>", UserOrderDetailView.as_view(), name="user_order"),
+    path("orders/<int:pk>/newline", OrderLineCreateView.as_view(), name="order_newline"),
     path("order/new", OrderCreateView.as_view(), name='order_new'),
 ]

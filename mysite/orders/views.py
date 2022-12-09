@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Order, Product, OrderLine, Status
+from django.shortcuts import reverse
 
 # Create your views here.
 class OrderListView(generic.ListView):
@@ -29,6 +30,19 @@ class OrderCreateView(generic.CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class OrderLineCreateView(generic.CreateView):
+    model = OrderLine
+    fields = ['product', 'qty']
+    template_name = 'orderline_form.html'
+
+    def get_success_url(self):
+        return reverse('user_order', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        form.instance.order = Order.objects.get(pk=self.kwargs['pk'])
+        form.save()
         return super().form_valid(form)
 
 

@@ -20,6 +20,13 @@ class Order(models.Model):
     date = models.DateTimeField("Data", auto_now_add=True)
     status = models.ForeignKey("Status", on_delete=models.SET_NULL, null=True, blank=True)
 
+    def bendra_suma(self):
+        total = 0
+        lines = self.lines.all()
+        for line in lines:
+            total += line.product.price * line.qty
+        return total
+
     def __str__(self):
         return f"{self.date} ({self.status})"
 
